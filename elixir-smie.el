@@ -274,27 +274,27 @@ Return non-nil if any line breaks were skipped."
 
 (defun elixir-smie-rules (kind token)
   (pcase (cons kind token)
-    (`(:elem . basic)
+    (`(:elem .basic)
      (if (smie-rule-hanging-p)
          0
        elixir-smie-indent-basic))
-    (`(:after . "OP")
+    (`(:after ."OP")
      (unless (smie-rule-sibling-p)
        elixir-smie-indent-basic))
-    (`(:before. "OP")
+    (`(:before ."OP")
      ;; FIXME: Issue #5: This should prevent comments on lines before
      ;; continuation lines from causing indentation messed-upness, but
      ;; for some reason SMIE doesn't look this far when there's a
      ;; comment terminating the previous line. Ugh.
      nil)
-    (`(:after . "->")
+    (`(:after ."->")
      (when (smie-rule-hanging-p)
        elixir-smie-indent-basic))
-    (`(,_ . ,(or `"COMMA")) (smie-rule-separator kind))
-    (`(:after . "=") elixir-smie-indent-basic)
-    (`(:after . ,(or `"do"))
+    (`(,_ .,(or `"COMMA")) (smie-rule-separator kind))
+    (`(:after ."=") elixir-smie-indent-basic)
+    (`(:after .,(or `"do"))
      elixir-smie-indent-basic)
-    (`(:list-intro . ,(or `"do"))
+    (`(:list-intro .,(or `"do"))
      t)))
 
 (define-minor-mode elixir-smie-mode
